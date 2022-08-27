@@ -13,12 +13,21 @@ const command = {
       .setTitle(`Wooh! A Wild ${pokemon.name} appeared.`)
       .setDescription(`To catch it, type: !catch ${pokemon.tag}`)
       .setImage(pokemon.imageUrl)
-      .setFooter("The first one the send correct reply will catch it!")
+      .setFooter({ text: "The first one the send correct reply will catch it!" })
 
     await channel.send({ content: "@everyone", embeds: [pokeEmbed] })
 
     const filter = msg => msg.content === `!catch ${pokemon.tag}`
     const messageCollector = new MessageCollector(channel, { filter, max: 1 })
+
+    messageCollector.on("collect", msg => {
+      channel.send({ content: `${msg.author} You caught a ${pokemon.name}` })
+      messageCollector.stop()
+    })
+
+    messageCollector.on("ignore", msg => {
+      console.log(msg.content)
+    })
   },
 }
 
