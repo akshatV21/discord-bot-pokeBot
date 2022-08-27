@@ -1,6 +1,7 @@
 require("dotenv").config()
 const { EmbedBuilder, MessageCollector } = require("discord.js")
-const getRandomPokemon = require("../helpers/mongo-helpers/random-pokemon")
+const getRandomPokemon = require("../helpers/pokemon-helpers")
+const { registerPokemonCaught } = require("../helpers/user-helpers")
 
 const command = {
   name: "play",
@@ -19,14 +20,18 @@ const command = {
 
     const filter = msg => msg.content === `!catch ${pokemon.tag}`
     const messageCollector = new MessageCollector(channel, { filter, max: 1 })
-
-    messageCollector.on("collect", msg => {
-      channel.send({ content: `${msg.author} You caught a ${pokemon.name}` })
+    console.log(pokemon)
+    messageCollector.on("collect", async msg => {
+      const { coinsgained, xpGained, candyGained } = await registerPokemonCaught(msg.author, pokemon)
+      msg.reply({
+        content: `${msg.author} caught a level ${pokemon.level} ${pokemon.name}.\nYou Gained:\n+${xpGained}xp\n+${coinsgained} pokecoins\n+${candyGained} rare candies`,
+      })
       messageCollector.stop()
     })
 
     messageCollector.on("ignore", msg => {
-      console.log(msg.content)
+      if (msg.author.bot) return
+      msg.reply({ content: `${msg.author} wrong reply!!` })
     })
   },
 }
