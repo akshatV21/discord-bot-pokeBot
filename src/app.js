@@ -1,6 +1,6 @@
 require("dotenv").config()
 const { readdirSync } = require("fs")
-const { Client, GatewayIntentBits } = require("discord.js")
+const { Client, GatewayIntentBits, Collection } = require("discord.js")
 
 const DISCORD_TOKEN = process.env.DISCORD_BOT_TOKEN
 
@@ -17,7 +17,7 @@ const COMMAND_FILES = readdirSync("./src/commands").filter(file => file.endsWith
 pokeBot.commands = new Collection()
 
 COMMAND_FILES.forEach(file => {
-  const command = require(`./src/commands/${file}`)
+  const command = require(`./commands/${file}`)
   pokeBot.commands.set(command.name, command)
 })
 
@@ -25,10 +25,12 @@ COMMAND_FILES.forEach(file => {
 const EVENT_FILES = readdirSync("./src/events").filter(file => file.endsWith(".js"))
 
 EVENT_FILES.forEach(file => {
-  const event = require(`./src/events/${file}`)
+  const event = require(`./events/${file}`)
   if (event.once) {
     pokeBot.once(event.event, (...args) => event.execute(...args))
   } else {
     pokeBot.on(event.event, (...args) => event.execute(...args, pokeBot))
   }
 })
+
+startBotServer()
