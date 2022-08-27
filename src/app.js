@@ -1,14 +1,16 @@
 require("dotenv").config()
 const { readdirSync } = require("fs")
 const { Client, GatewayIntentBits, Collection } = require("discord.js")
+const { connectToMongo } = require("./mongo")
 
 const DISCORD_TOKEN = process.env.DISCORD_BOT_TOKEN
 
 const pokeBot = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent],
 })
 
 const startBotServer = async () => {
+  await connectToMongo()
   pokeBot.login(DISCORD_TOKEN)
 }
 
