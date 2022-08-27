@@ -20,7 +20,7 @@ const command = {
 
     const filter = msg => msg.content === `!catch ${pokemon.tag}`
     const messageCollector = new MessageCollector(channel, { filter, max: 1 })
-    console.log(pokemon)
+
     messageCollector.on("collect", async msg => {
       const { coinsgained, xpGained, candyGained } = await registerPokemonCaught(msg.author, pokemon)
       msg.reply({

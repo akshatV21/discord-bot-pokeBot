@@ -2,7 +2,7 @@ const { coin_gains, xp_gains, candy_gains } = require("../config/index")
 const UserModel = require("../models/user-model")
 
 const registerPokemonCaught = async (member, pokemon) => {
-  const user = (await UserModel.findOne({ user: { id: member.id } })) ?? (await createUserInMongo(member))
+  const user = (await UserModel.findOne({ id: member.id })) || (await createUserInMongo(member))
 
   user.pokemons.push(pokemon)
   user.pokecoins += coin_gains[pokemon.stage - 1]
@@ -20,7 +20,7 @@ const registerPokemonCaught = async (member, pokemon) => {
 const createUserInMongo = async member => {
   const { username, discriminator } = member
 
-  const newUser = new UserModel({ user: { username, tag: discriminator, id: member.id } })
+  const newUser = new UserModel({ username, tag: discriminator, id: member.id })
   await newUser.save()
 
   return newUser

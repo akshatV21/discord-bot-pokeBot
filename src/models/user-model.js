@@ -2,19 +2,17 @@ const { Schema, model } = require("mongoose")
 
 const userSchema = new Schema(
   {
-    user: {
-      username: {
-        type: String,
-        required: true,
-      },
-      tag: {
-        type: String,
-        required: true,
-      },
-      id: {
-        type: String,
-        required: true,
-      },
+    username: {
+      type: String,
+      required: true,
+    },
+    tag: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: String,
+      required: true,
     },
     level: {
       type: Number,
