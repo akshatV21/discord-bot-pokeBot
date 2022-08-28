@@ -7,17 +7,10 @@ const getRandomPokemon = async () => {
     const ramdomPokedexNumber = Math.ceil(Math.random() * totalPokemons)
 
     const randomPokemon = await PokeModel.findOne({ pokedexNo: ramdomPokedexNumber })
-    return { ...randomPokemon._doc, level: getGeneratedPokeLevel(randomPokemon) }
+    return { ...randomPokemon._doc }
   } catch (error) {
     console.log(error)
   }
-}
-
-const getGeneratedPokeLevel = pok => {
-  const stage = pok.stage
-  const levelCaps = config.level_caps
-  const level = Math.ceil(Math.random() * (levelCaps[stage] - levelCaps[stage - 1]) + levelCaps[stage - 1])
-  return level
 }
 
 module.exports = getRandomPokemon
