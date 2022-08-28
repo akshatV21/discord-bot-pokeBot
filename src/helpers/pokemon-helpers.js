@@ -14,10 +14,9 @@ const getRandomPokemon = async () => {
 }
 
 const getGeneratedPokeLevel = pok => {
-  const stage = pok.stage - 1
+  const stage = pok.stage
   const levelCaps = config.level_caps
   const level = Math.ceil(Math.random() * (levelCaps[stage] - levelCaps[stage - 1]) + levelCaps[stage - 1])
-  console.log(1, stage, level, levelCaps)
   return level
 }
 
