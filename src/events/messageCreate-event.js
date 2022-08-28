@@ -5,7 +5,7 @@ const event = {
     try {
       if (message.channelId !== process.env.POKE_CH_ID) {
         const chance = Math.random()
-        if (chance < 0.2) {
+        if (chance < 0.8) {
           const command = client.commands.get("play")
           await command.execute(message)
           return
