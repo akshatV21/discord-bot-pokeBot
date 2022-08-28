@@ -22,10 +22,18 @@ const command = {
     const messageCollector = new MessageCollector(channel, { filter, max: 1 })
 
     messageCollector.on("collect", async msg => {
-      const { coinsgained, xpGained, candyGained } = await registerPokemonCaught(msg.author, pokemon)
+      const { coinsgained, xpGained, candyGained, level } = await registerPokemonCaught(msg.author, pokemon)
       msg.reply({
         content: `${msg.author} caught a level ${pokemon.level} ${pokemon.name}.\nYou Gained:\n+${xpGained}xp\n+${coinsgained} pokecoins\n+${candyGained} rare candies`,
       })
+
+      // only send when the user level ups
+      if (level.increased) {
+        channel.send({
+          content: `${msg.author} Congratulations!! You have now reached level ${level.currentLevel}\nYou Gained:\n+${level.xpGained}xp\n+${level.coinsgained} pokecoins\n+${level.candyGained} rare candies`,
+        })
+      }
+
       messageCollector.stop()
     })
 
