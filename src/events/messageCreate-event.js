@@ -3,6 +3,7 @@ const event = {
   once: false,
   async execute(message, client) {
     try {
+      if (message.author.bot) return
       if (message.channelId !== process.env.POKE_CH_ID) {
         const chance = Math.random()
         if (chance < 0.8) {

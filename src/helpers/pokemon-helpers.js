@@ -16,8 +16,8 @@ const getRandomPokemon = async () => {
 
     const pokedexNos = randomPokemons.map(poke => poke.pokedexNo)
     const totalPokemons = randomPokemons.length
-    const ramdomPokedexNumber = pokedexNos[Math.ceil(Math.random() * totalPokemons)]
-    const randomPokemon = randomPokemons[ramdomPokedexNumber]
+    const ramdomPokedexNumber = pokedexNos[Math.floor(Math.random() * totalPokemons)]
+    const randomPokemon = randomPokemons.find(poke => poke.pokedexNo === ramdomPokedexNumber)
 
     return { ...randomPokemon._doc }
   } catch (error) {
