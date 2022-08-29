@@ -14,7 +14,7 @@ const registerPokemonCaught = async (member, pokemon) => {
     user.level += 1
     user.pokecoins += 50
     user.rareCandies += 50
-    user.xp = (xp_level_caps[userCurrentLevel] * 10) / 100
+    user.xp += (xp_level_caps[userCurrentLevel] * 10) / 100
   }
 
   await user.save()
